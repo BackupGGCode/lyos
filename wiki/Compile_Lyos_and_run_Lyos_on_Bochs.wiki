@@ -2,36 +2,42 @@
 #Compile and run Lyos
 
 =Download Source=
-use 
+use
+
 {{{svn checkout http://lyos.googlecode.com/svn/ lyos-read-only}}}
+
 to get the source or download it.
 
 =Compile=
-If you download the zip file,use 
+*If you download the zip file,use*
 
 {{{tar -jxvf Lyos-0.2.6.31.tar.bz2}}}
 
-to extract it.
+*to extract it.*
+
 {{{cd Lyos/truck}}}
 
-Compile Lyos
+*Compile Lyos*
+
 {{{make image}}}
 
-Compile Library
+*Compile Library*
 
 {{{cd lib}}}
+
 {{{make}}}
+
 {{{cd ../ }}}
 
-Compile command files
+*Compile command files*
 
 {{{make cmd}}}
 
 =Run Lyos=
-Extract the hard disk image
+*Extract the hard disk image*
 
 {{{tar -zxvf 80m.img.tar.gz}}}
 
-Run
+*Run*
 
 {{{bochs}}}

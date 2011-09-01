@@ -41,9 +41,9 @@ OBJS		= kernel/kernel.o kernel/start.o kernel/main.o\
 			lib/syslog.o\
 			mm/main.o mm/forkexit.o mm/exec.o mm/page.o mm/memory.o \
 			mm/signal.o \
-			fs/main.o fs/open.o fs/misc.o fs/read_write.o\
-			fs/link.o fs/file.o \
-			fs/disklog.o fs/buffer.o fs/namei.o
+			fs/Lyos/main.o fs/Lyos/open.o fs/Lyos/misc.o fs/Lyos/read_write.o\
+			fs/Lyos/link.o fs/Lyos/file.o \
+			fs/Lyos/disklog.o fs/Lyos/buffer.o fs/Lyos/namei.o
 LOBJS		=  lib/syscall.o\
 			lib/printf.o lib/vsprintf.o\
 			lib/string.o lib/misc.o\
@@ -261,26 +261,26 @@ mm/memory.: mm/memory.c
 mm/signal.o: mm/signal.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-fs/main.o: fs/main.c
+fs/Lyos/main.o: fs/Lyos/main.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-fs/open.o: fs/open.c
+fs/Lyos/open.o: fs/Lyos/open.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-fs/read_write.o: fs/read_write.c
+fs/Lyos/read_write.o: fs/Lyos/read_write.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-fs/link.o: fs/link.c
+fs/Lyos/link.o: fs/Lyos/link.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-fs/file.o: fs/file.c
+fs/Lyos/file.o: fs/Lyos/file.c
 	$(CC) $(CFLAGS) -o $@ $<
 	
-fs/disklog.o: fs/disklog.c
+fs/Lyos/disklog.o: fs/Lyos/disklog.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-fs/buffer.o: fs/buffer.c
+fs/Lyos/buffer.o: fs/Lyos/buffer.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-fs/namei.o: fs/namei.c
+fs/Lyos/namei.o: fs/Lyos/namei.c
 	$(CC) $(CFLAGS) -o $@ $<

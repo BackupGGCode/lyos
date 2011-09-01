@@ -16,9 +16,9 @@ to extract it.
 Compile Lyos
 {{{make image}}}
 Compile Library
-{{{cd lib
-make
-cd ../ }}}
+{{{cd lib}}}
+{{{make}}}
+{{{cd ../ }}}
 Compile command files
 {{{make cmd}}}
 

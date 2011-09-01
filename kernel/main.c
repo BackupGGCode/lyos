@@ -36,7 +36,7 @@
  *****************************************************************************/
 PUBLIC int kernel_main()
 {
-	printk("\n\n\n\n\n\n\n");
+	printk("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
 	int i, j, eflags, prio;
         u8  rpl;
@@ -308,6 +308,7 @@ void shell(const char * tty_name)
 			p++;
 		} while(ch);
 		argv[argc] = 0;
+
 
 
 

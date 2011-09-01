@@ -42,27 +42,6 @@ LABEL_START:			; <--- 从这里开始 *************
 	mov	ss, ax
 	mov	sp, BaseOfStack
 
-	;;mov ah,00h
-	;;mov al,02h
-	;;int 10h 
-	
-	;;mov dx,3ceh
-	;;mov al,5
-	;;out dx,al ;选择 模式选择寄存器 为当前可用寄存器
-	;;mov dx,3cfh
-	;;mov al,2
-	;;out dx,al ;将模式2设为当前写模式
-	;;mov dx,3ceh
-	;;mov al,8
-	;;out dx,al ;选择 位屏蔽寄存器 为当前可用寄存器
-	;;mov dx,3cfh
-	;;mov al,11111111b ;让八个象素前四个有效，后四个无效
-	;;out dx,al 
-
-	;;mov bx,0A000h
-	;;mov es,bx
-	;;mov byte [es:0],0x0A
-
 	mov	dh, 0			; "Loading  "
 	call	DispStrRealMode		; 显示字符串
 
@@ -533,7 +512,7 @@ DispAL:
 
 	mov	edi, [dwDispPos]
 
-	mov	ah, 0Fh			; 0000b: 黑底    1111b: 白字
+	mov	ah, 07h			; 0000b: 黑底    0111b: 灰字
 	mov	dl, al
 	shr	al, 4
 	mov	ecx, 2
@@ -607,7 +586,7 @@ DispStr:
 
 	mov	esi, [ebp + 8]	; pszInfo
 	mov	edi, [dwDispPos]
-	mov	ah, 0Fh
+	mov	ah, 07h
 .1:
 	lodsb
 	test	al, al
@@ -702,24 +681,24 @@ DispMemInfo:
 	push	ecx
 
 	push	szMemChkTitle
-;;;	call	DispStr
+	call	DispStr
 	add	esp, 4
 
 	mov	esi, MemChkBuf
 	mov	ecx, [dwMCRNumber]	;for(int i=0;i<[MCRNumber];i++) // 每次得到一个ARDS(Address Range Descriptor Structure)结构
 .loop:					;{
-	mov	edx, 5			;	for(int j=0;j<5;j++)	// 每次得到一个ARDS中的成员，共5个成员
+	mov	edx, 5			;	for(int j=0;j<4;j++)	// 每次得到一个ARDS中的成员，共5个成员
 	mov	edi, ARDStruct		;	{			// 依次显示：BaseAddrLow，BaseAddrHigh，LengthLow，LengthHigh，Type
 .1:					;
 	push	dword [esi]		;
-;;;	call	DispInt			;		DispInt(MemChkBuf[j*4]); // 显示一个成员
+	call	DispInt			;		DispInt(MemChkBuf[j*4]); // 显示一个成员
 	pop	eax			;
 	stosd				;		ARDStruct[j*4] = MemChkBuf[j*4];
 	add	esi, 4			;
 	dec	edx			;
 	cmp	edx, 0			;
 	jnz	.1			;	}
-;;;	call	DispReturn		;	printf("\n");
+	call	DispReturn		;	printf("\n");
 	cmp	dword [dwType], 1	;	if(Type == AddressRangeMemory) // AddressRangeMemory : 1, AddressRangeReserved : 2
 	jne	.2			;	{
 	mov	eax, [dwBaseAddrLow]	;
@@ -729,14 +708,13 @@ DispMemInfo:
 	mov	[dwMemSize], eax	;			MemSize = BaseAddrLow + LengthLow;
 .2:					;	}
 	loop	.loop			;}
-					;
-;;;	call	DispReturn		;printf("\n");
+	call	DispReturn		;printf("\n");
 	push	szRAMSize		;
-;;;	call	DispStr			;printf("RAM size:");
+	call	DispStr			;printf("RAM size:");
 	add	esp, 4			;
 					;
 	push	dword [dwMemSize]	;
-;;;	call	DispInt			;DispInt(MemSize);
+	call	DispInt			;DispInt(MemSize);
 	add	esp, 4			;
 
 	pop	ecx

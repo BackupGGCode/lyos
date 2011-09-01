@@ -127,7 +127,7 @@ PRIVATE void scan_pci(int bus)
 
 PUBLIC void pci_init()
 {
-	printl("Probing PCI hardware...\n");
-	scan_pci(0);
+	/*printl("Probing PCI hardware...\n");
+	scan_pci(0);*/
 }
      

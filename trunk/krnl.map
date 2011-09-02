@@ -112,6 +112,8 @@ Discarded input sections
  .note.GNU-stack
                 0x0000000000000000        0x0 mm/signal.o
  .note.GNU-stack
+                0x0000000000000000        0x0 fs/main.o
+ .note.GNU-stack
                 0x0000000000000000        0x0 fs/Lyos/main.o
  .note.GNU-stack
                 0x0000000000000000        0x0 fs/Lyos/open.o
@@ -196,6 +198,7 @@ LOAD mm/exec.o
 LOAD mm/page.o
 LOAD mm/memory.o
 LOAD mm/signal.o
+LOAD fs/main.o
 LOAD fs/Lyos/main.o
 LOAD fs/Lyos/open.o
 LOAD fs/Lyos/misc.o
@@ -489,8 +492,11 @@ LOAD lib/Lyoscrt.a
                 0x000000000000a204                do_kill
                 0x000000000000a27d                do_raise
  *fill*         0x000000000000a2a6        0x2 90909090
+ .text          0x000000000000a2a8        0x0 fs/main.o
  .text          0x000000000000a2a8     0x14ab fs/Lyos/main.o
                 0x000000000000a2a8                task_fs
+                0x000000000000a524                init_fs
+                0x000000000000a5c5                mount_root
                 0x000000000000b0d3                rw_sector
                 0x000000000000b17f                read_super_block
                 0x000000000000b2f2                get_super_block
@@ -783,6 +789,7 @@ LOAD lib/Lyoscrt.a
  .data          0x0000000000014c84        0x0 mm/exec.o
  .data          0x0000000000014c84        0x0 mm/memory.o
  .data          0x0000000000014c84        0x0 mm/signal.o
+ .data          0x0000000000014c84        0x0 fs/main.o
  .data          0x0000000000014c84        0x0 fs/Lyos/main.o
  .data          0x0000000000014c84        0x0 fs/Lyos/open.o
  .data          0x0000000000014c84        0x0 fs/Lyos/misc.o
@@ -849,6 +856,7 @@ LOAD lib/Lyoscrt.a
  .bss           0x0000000000015b9c        0x0 mm/exec.o
  .bss           0x0000000000015b9c        0x0 mm/memory.o
  .bss           0x0000000000015b9c        0x0 mm/signal.o
+ .bss           0x0000000000015b9c        0x0 fs/main.o
  .bss           0x0000000000015b9c        0x0 fs/Lyos/main.o
  .bss           0x0000000000015b9c        0x0 fs/Lyos/open.o
  .bss           0x0000000000015b9c        0x0 fs/Lyos/misc.o
@@ -968,6 +976,7 @@ LOAD lib/Lyoscrt.a
  .comment       0x0000000000000000       0x2b mm/exec.o
  .comment       0x0000000000000000       0x2b mm/memory.o
  .comment       0x0000000000000000       0x2b mm/signal.o
+ .comment       0x0000000000000000       0x2b fs/main.o
  .comment       0x0000000000000000       0x2b fs/Lyos/main.o
  .comment       0x0000000000000000       0x2b fs/Lyos/open.o
  .comment       0x0000000000000000       0x2b fs/Lyos/misc.o

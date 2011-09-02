@@ -46,7 +46,8 @@ PUBLIC	struct task	task_table[NR_TASKS] = {
 	{task_fd,       STACK_SIZE_FD,    "FD"        },
 	{task_scsi,     STACK_SIZE_SCSI,  "SCSI"      },
 	{task_pci,      STACK_SIZE_PCI,   "PCI"       },
-	{task_inet,     STACK_SIZE_INET,  "INET"      }};
+	{task_inet,     STACK_SIZE_INET,  "INET"      },
+	/*{task_lyos_fs,  STACK_SIZE_LYOS_FS,"LYOS_FS"  }*/};
 
 PUBLIC	struct task	user_proc_table[NR_NATIVE_PROCS] = {
 	/* entry    stack size     proc name */

@@ -28,8 +28,6 @@
 #include "proto.h"
 #include "hd.h"
 
-PRIVATE void init_fs();
-PRIVATE void mount_root();
 PRIVATE void mkfs();
 PRIVATE int fs_fork();
 PRIVATE int fs_exit();
@@ -162,7 +160,7 @@ PUBLIC void task_fs()
  * <Ring 1> Do some preparation.
  * 
  *****************************************************************************/
-PRIVATE void init_fs()
+PUBLIC void init_fs()
 {
 	int i;
 
@@ -182,7 +180,7 @@ PRIVATE void init_fs()
 	mount_root();
 }
 
-PRIVATE void mount_root()
+PUBLIC void mount_root()
 {
 	MESSAGE driver_msg;
 	driver_msg.type = DEV_OPEN;

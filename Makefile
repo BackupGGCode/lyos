@@ -41,6 +41,7 @@ OBJS		= kernel/kernel.o kernel/start.o kernel/main.o\
 			lib/syslog.o\
 			mm/main.o mm/forkexit.o mm/exec.o mm/page.o mm/memory.o \
 			mm/signal.o \
+			fs/main.o \
 			fs/Lyos/main.o fs/Lyos/open.o fs/Lyos/misc.o fs/Lyos/read_write.o\
 			fs/Lyos/link.o fs/Lyos/file.o \
 			fs/Lyos/disklog.o fs/Lyos/buffer.o fs/Lyos/namei.o
@@ -259,6 +260,9 @@ mm/memory.: mm/memory.c
 	$(CC) $(CFLAGS) -o $@ $<
 	
 mm/signal.o: mm/signal.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+fs/main.o: fs/main.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 fs/Lyos/main.o: fs/Lyos/main.c

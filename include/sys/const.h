@@ -153,6 +153,7 @@
 #define TASK_SCSI	7
 #define TASK_PCI	8
 #define TASK_INET	9
+/*#define TASK_LYOS_FS	10 */
 #define INIT		10
 #define ANY		(NR_TASKS + NR_PROCS + 10)
 #define NO_TASK		(NR_TASKS + NR_PROCS + 20)

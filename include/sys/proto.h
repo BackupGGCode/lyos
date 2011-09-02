@@ -106,31 +106,37 @@ PUBLIC void dump_tty_buf();	/* for debug only */
 PUBLIC void task_sys();
 
 /* fs/main.c */
-PUBLIC void					task_fs();
-PUBLIC int					rw_sector(int io_type, int dev, u64 pos,
-							int bytes, int proc_nr, void * buf);
-PUBLIC struct inode *		get_inode(int dev, int num);
-PUBLIC void					put_inode(struct inode * pinode);
-PUBLIC void					sync_inode(struct inode * p);
-PUBLIC void 				read_super_block(int dev);
-PUBLIC struct super_block *	get_super_block(int dev);
+/*PUBLIC void			task_fs();*/
 
-/* fs/buffer.c */
+/* fs/Lyos/main.c */
+/*PUBLIC void			task_lyos_fs	();*/
+PUBLIC void			task_fs();
+PUBLIC void			init_fs();
+PUBLIC void 			mount_root();
+PUBLIC int			rw_sector	(int io_type, int dev, u64 pos,
+						int bytes, int proc_nr, void * buf);
+PUBLIC struct inode *		get_inode	(int dev, int num);
+PUBLIC void			put_inode	(struct inode * pinode);
+PUBLIC void			sync_inode	(struct inode * p);
+PUBLIC void 			read_super_block(int dev);
+PUBLIC struct super_block *	get_super_block	(int dev);
+
+/* fs/Lyos/buffer.c */
 PUBLIC void 		bread		(struct buffer_head * bh);
 PUBLIC char * 		find_buffer	(int dev, u64 pos, int cnt);
 PUBLIC char * 		get_buffer	(int dev, u64 pos, int cnt);
 PUBLIC void 		sync_buffer	();
 PUBLIC void 		do_sync		();
 PUBLIC void 		free_buffer	();
-PUBLIC void			init_buffer	();
+PUBLIC void		init_buffer	();
 
-/* fs/misc.c */
+/* fs/Lyos/misc.c */
 PUBLIC int			do_stat();
 PUBLIC int			strip_path	(char * filename, const char * pathname,
 					struct inode** ppinode);
 PUBLIC int			search_file(char * path);
 
-/* fs/disklog.c */
+/* fs/Lyos/disklog.c */
 PUBLIC int			disklog(char * logstr); /* for debug */
 PUBLIC void			dump_fd_graph(const char * fmt, ...);
 
@@ -156,7 +162,7 @@ PUBLIC	void	dump_proc(struct proc * p);
 PUBLIC	int	send_recv(int function, int src_dest, MESSAGE* msg);
 PUBLIC void	inform_int(int task_nr);
 
-/* fs/open.c */
+/* fs/Lyos/open.c */
 PUBLIC int		do_open();
 PUBLIC int		do_close();
 PUBLIC int		do_lseek();
@@ -165,19 +171,19 @@ PUBLIC int		do_chroot();
 PUBLIC int 		do_mount();
 PUBLIC int 		do_umount();
 
-/* fs/read_write.c */
+/* fs/Lyos/read_write.c */
 PUBLIC int		do_rdwt();
 
-/* fs/link.c */
+/* fs/Lyos/link.c */
 PUBLIC int		do_unlink();
 
-/* fs/misc.c */
+/* fs/Lyos/misc.c */
 PUBLIC int		do_stat();
 
-/* fs/disklog.c */
+/* fs/Lyos/disklog.c */
 PUBLIC int		do_disklog();
 
-/* fs/namei.c */
+/* fs/Lyos/namei.c */
 PUBLIC int namei(const char * path);
 PUBLIC int 			   find_entry	(struct inode * dir_inode, 
 									const char * file);

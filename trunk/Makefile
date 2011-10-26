@@ -32,6 +32,7 @@ OBJS		= kernel/kernel.o kernel/start.o kernel/main.o\
 			drivers/chr_dev/console.o\
 			kernel/i8259.o kernel/global.o kernel/protect.o kernel/proc.o\
 			kernel/systask.o\
+			drivers/driver.o \
 			drivers/blk_dev/hd.o drivers/blk_dev/floppy.o drivers/blk_dev/rw_blk.o \
 			drivers/blk_dev/ramdisk.o	\
 			drivers/blk_dev/scsi/scsi.o \
@@ -127,6 +128,9 @@ kernel/main.o: kernel/main.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 kernel/clock.o: kernel/clock.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+drivers/driver.o: drivers/driver.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 drivers/chr_dev/keyboard.o: drivers/chr_dev/keyboard.c

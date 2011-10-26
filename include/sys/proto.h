@@ -70,6 +70,9 @@ PUBLIC void clock_handler(int irq);
 PUBLIC void init_clock();
 PUBLIC void milli_delay(int milli_sec);
 
+/* driver/driver.c */
+PUBLIC void dev_driver_task(struct dev_driver * dd);
+
 /* kernel/blk_dev/hd.c */
 PUBLIC void task_hd();
 PUBLIC void do_hd_request();

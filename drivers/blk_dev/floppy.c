@@ -48,11 +48,12 @@ unsigned char reply[7];
 
 PRIVATE void fd_identify(void);
 PRIVATE int read_cmos(char addr);
+/*
 PRIVATE int fdc_out(int val);
 PRIVATE int fdc_out_command(unsigned char * command, int len);
 PRIVATE int fdc_result();
-PRIVATE void interrupt_wait();
-PRIVATE struct floppy_struct *find_base(int drive,int code);
+PRIVATE void interrupt_wait(); */
+PRIVATE struct floppy_struct *find_type(int drive,int code);
 
 PUBLIC void task_fd()
 {
@@ -87,9 +88,11 @@ PUBLIC void task_fd()
 	}
 }
 
+/*
 PRIVATE int fdc_out(int val)
 {
 	out_byte(FD_DATA, val);
+	return 0;
 }
 
 PRIVATE int fdc_out_command(unsigned char * command, int len)
@@ -98,7 +101,9 @@ PRIVATE int fdc_out_command(unsigned char * command, int len)
 		fdc_out(*command++);
 		len--;
 	}
+	return 0;
 }
+
 
 PRIVATE int fdc_result()
 {
@@ -113,7 +118,9 @@ PRIVATE int fdc_result()
 		reply[i++] = in_byte(FD_DATA);
 		}
 	}
+	return 0;
 }
+*/
 
 PRIVATE struct floppy_struct * find_type(int drive,int code)
 {
@@ -141,6 +148,7 @@ PRIVATE void fd_identify(void)
 	printl("\n");
 }
 
+/*
 PRIVATE void floppy_on(unsigned int nr)
 {
 	unsigned char mask = 0x10 << nr;
@@ -149,15 +157,18 @@ PRIVATE void floppy_on(unsigned int nr)
 
 	out_byte(FD_DOR, mask);
 }
+*/
 
+/*
 PRIVATE void fd_rdwt(MESSAGE * p)
 {
 	u64 pos = p->POSITION;
 	
-	u32 sector = (u32)(pos >> SECTOR_SIZE_SHIFT); /* pos / SECTOR_SIZE */
+	u32 sector = (u32)(pos >> SECTOR_SIZE_SHIFT);
 	
-	struct floppy_struct * floppy = floppy_types + 6;
+	struct floppy_struct * floppy = floppy_types + 6; 
 }
+*/
 
 
 PUBLIC void fd_handler(int irq)
@@ -165,11 +176,13 @@ PUBLIC void fd_handler(int irq)
 	inform_int(TASK_FD);
 }
 
+/*
 PRIVATE void interrupt_wait()
 {
 	MESSAGE msg;
 	send_recv(RECEIVE, INTERRUPT, &msg);
 }
+* */
 
 PUBLIC void do_fd_request()
 {

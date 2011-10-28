@@ -85,7 +85,7 @@ PUBLIC void init_buffer()
 		s->b_pos = 0;
 		s->b_dirt = 0;		
 		s->b_count = 0;
-		s->b_data = (u8 *)e;
+		s->b_data = (char *)e;
 		s->bh_prev = s-1;
 		s->bh_next = s+1;
 		//printl("buffer_table[%d]->b_data:%d\n",i-1, (s->bh_prev)->b_data);

@@ -24,5 +24,7 @@ struct dev_driver{
   void (*dev_ioctl)	(MESSAGE * p);
 };
 
+PUBLIC void dev_driver_task(struct dev_driver * dd);
+
 #endif
 

@@ -30,6 +30,7 @@
 PUBLIC	int sys_reboot(int _unused1, int _unused2, int flags, struct proc* p)
 {
 	hard_reboot();
+	return 0;
 }
 
 PUBLIC int do_ftime()

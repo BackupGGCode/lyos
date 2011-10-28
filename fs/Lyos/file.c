@@ -35,6 +35,7 @@ PRIVATE int file_rdwt(int rw, struct file_desc * file, char * buf, int len);
 
 PUBLIC struct file_desc * file_open(char * filename)
 {
+	return 0;
 }
 
 PRIVATE int file_rdwt(int rw, struct file_desc * file, char * buf, int len)

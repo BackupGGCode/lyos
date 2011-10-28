@@ -36,7 +36,7 @@
  *****************************************************************************/
 PUBLIC int kernel_main()
 {
-	printk("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+	disp_str("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
 	int i, j, eflags, prio;
         u8  rpl;
@@ -281,7 +281,7 @@ void shell(const char * tty_name)
 
 	char rdbuf[128];
 
-	struct utsname * name;
+	struct utsname * name = 0;
 	uname(name);
 	while (1) {
 		printf("[root@%s]$", name->nodename);
@@ -402,8 +402,8 @@ void Init()
 	
 	while (1) {
 		int s;
-		int child = wait(&s);
-//		printf("child (%d) exited with status: %d.\n", child, s);
+		/* int child = */wait(&s);
+		//printf("child (%d) exited with status: %d.\n", child, s);
 	}
 
 	assert(0);

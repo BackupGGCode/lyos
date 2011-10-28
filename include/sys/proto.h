@@ -70,8 +70,8 @@ PUBLIC void clock_handler(int irq);
 PUBLIC void init_clock();
 PUBLIC void milli_delay(int milli_sec);
 
-/* driver/driver.c */
-PUBLIC void dev_driver_task(struct dev_driver * dd);
+/* kernel/blk_dev/rw_blk.c */
+PUBLIC void	add_request(dev_t dev, MESSAGE * m);
 
 /* kernel/blk_dev/hd.c */
 PUBLIC void task_hd();
@@ -80,10 +80,13 @@ PUBLIC void hd_handler(int irq);
 
 /* kernel/blk_dev/fd.c */
 PUBLIC void task_fd();
+PUBLIC void init_fd();
 PUBLIC void fd_handler(int irq);
 
 /* kernel/blk_dev/rd.c */
 PUBLIC void task_rd();
+PUBLIC void init_rd();
+PUBLIC void rd_load_image(dev_t dev, int offset);
 
 /* kernel/blk_dev/scsi/scsi.c */
 PUBLIC void task_scsi();
@@ -93,6 +96,7 @@ PUBLIC void do_scsi_request();
 
 /* kernel/blk_dev/pci/pci.c */
 PUBLIC void task_pci();
+PUBLIC void pci_init();
 
 PUBLIC void task_inet();
 
@@ -173,6 +177,7 @@ PUBLIC int		do_chdir();
 PUBLIC int		do_chroot();
 PUBLIC int 		do_mount();
 PUBLIC int 		do_umount();
+PUBLIC int 		do_mkdir();
 
 /* fs/Lyos/read_write.c */
 PUBLIC int		do_rdwt();
@@ -225,12 +230,17 @@ PUBLIC int		do_umask();
 /* proc.c*/
 PUBLIC int 		do_setuid();
 PUBLIC int		do_getuid();
+PUBLIC int		do_geteuid();
+PUBLIC int		do_getegid();
 PUBLIC int		do_setgid();
 PUBLIC int		do_getgid();
 PUBLIC int		do_nice();
 
 /* signal.h */
 PUBLIC int do_sigaction();
+PUBLIC int do_raise();
+PUBLIC int do_alarm();
+
 
 /* lib/misc.c */
 PUBLIC void spin(char * func_name);

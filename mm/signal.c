@@ -133,5 +133,5 @@ PUBLIC int do_raise()
 {
 	int sig = mm_msg.SIGNR;
 	
-	return send_sig(getpid(), sig);
+	return send_sig(sig, proc_table + getpid());
 }

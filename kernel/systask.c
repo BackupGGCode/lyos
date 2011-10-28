@@ -67,7 +67,7 @@ PUBLIC void task_sys()
 			break;
 		case UNAME:
 			msg.type = SYSCALL_RET;
-			struct utsname * name;
+			//struct utsname * name;
 			msg.RETVAL = do_uname(src, msg.BUF);
 			send_recv(SEND, src, &msg);
 			break;

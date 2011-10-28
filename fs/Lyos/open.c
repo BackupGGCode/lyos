@@ -320,7 +320,7 @@ PUBLIC int do_chdir()
 {
 	struct inode * ino;
 	char * path = fs_msg.PATHNAME;
-	char * filename;
+	char * filename = 0;
 
 	int ret = strip_path(filename, path, &ino);
 	if (ret != 0) return -ENOENT;
@@ -346,7 +346,7 @@ PUBLIC int do_chroot()
 {
 	struct inode * ino;
 	char * path = fs_msg.PATHNAME;
-	char * filename;
+	char * filename = 0;
 
 	int ret = strip_path(filename, path, &ino);
 	if (ret != 0) return -ENOENT;
@@ -554,6 +554,7 @@ PRIVATE void new_dir_entry(struct inode *dir_inode,int inode_nr,char *filename)
 
 PUBLIC int do_mount()
 {
+	/*
 	int dev = fs_msg.DEVICE;
 	char * dir = fs_msg.PATHNAME;
 
@@ -561,7 +562,8 @@ PUBLIC int do_mount()
 	struct super_block * sb = get_super_block(dev);
 
 	struct inode * ino = search_file(dir);
-
+	*/
+	
 	return -ENOSYS;
 }
 

@@ -153,12 +153,12 @@ PRIVATE void init_mm()
 
 	mem_start = rd_base + rd_length + (256 * 1024); */
 	
-	buffer_base = BUFFER_BASE;
+	buffer_base = (unsigned char *)BUFFER_BASE;
 	buffer_length = BUFFER_LENGTH;
 	//init_buffer();
 	
 #ifdef RAMDISK
-	rd_base = RAMDISK_BASE;
+	rd_base = (unsigned char *)RAMDISK_BASE;
 	rd_length = RAMDISK_LENGTH;
 #endif
 

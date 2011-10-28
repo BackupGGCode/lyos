@@ -26,6 +26,7 @@
 #include "global.h"
 #include "proto.h"
 #include "hd.h"
+#include "driver.h"
 
 #define	MAJOR_DEV	3
 #include "blk.h"
@@ -33,14 +34,14 @@
 
 PRIVATE void	init_hd			();
 PRIVATE void	end_request		();
-PRIVATE void	hd_open			(int device);
-PRIVATE void	hd_close		(int device);
+PRIVATE void	hd_open			(MESSAGE * p);
+PRIVATE void	hd_close		(MESSAGE * p);
 PRIVATE void	hd_rdwt			(MESSAGE * p);
 PRIVATE void	hd_ioctl		(MESSAGE * p);
 PRIVATE void	hd_cmd_out		(struct hd_cmd* cmd);
 PRIVATE void	get_part_table		(int drive, int sect_nr, struct part_ent * entry);
 PRIVATE void	partition		(int device, int style);
-PRIVATE void	print_hdinfo		(struct hd_info * hdi); 
+//PRIVATE void	print_hdinfo		(struct hd_info * hdi); 
 PRIVATE int	waitfor			(int mask, int val, int timeout);
 PRIVATE void	interrupt_wait		();
 PRIVATE	void	hd_identify		(int drive);
@@ -53,6 +54,12 @@ PRIVATE	struct hd_info	hd_info[1];
 #define	DRV_OF_DEV(dev) (dev <= MAX_PRIM ? \
 			 dev / NR_PRIM_PER_DRIVE : \
 			 (dev - MINOR_hd1a) / NR_SUB_PER_DRIVE)
+
+struct dev_driver hd_driver = 
+	{ hd_open,
+	  hd_close,
+	  hd_rdwt,
+	  hd_ioctl };
 
 /*****************************************************************************
  *                                task_hd
@@ -67,6 +74,8 @@ PUBLIC void task_hd()
 
 	init_hd();
 
+/*	dev_driver_task(&hd_driver);	*/
+
 	while (1) {
 		send_recv(RECEIVE, ANY, &msg);
 
@@ -74,11 +83,11 @@ PUBLIC void task_hd()
 
 		switch (msg.type) {
 		case DEV_OPEN:
-			hd_open(msg.DEVICE);
+			hd_open(&msg);
 			break;
 
 		case DEV_CLOSE:
-			hd_close(msg.DEVICE);
+			hd_close(&msg);
 			break;
 
 		case DEV_READ:
@@ -99,6 +108,7 @@ PUBLIC void task_hd()
 
 		if ((msg.type != DEV_READ) && (msg.type != DEV_WRITE))send_recv(SEND, src, &msg);
 	}
+
 }
 
 
@@ -169,9 +179,9 @@ PRIVATE void end_request()
  * 
  * @param device The device to be opened.
  *****************************************************************************/
-PRIVATE void hd_open(int device)
+PRIVATE void hd_open(MESSAGE * p)
 {
-	int drive = DRV_OF_DEV(device);
+	int drive = DRV_OF_DEV(p->DEVICE);
 	assert(drive == 0);	/* only one drive */
 
 	hd_identify(drive);
@@ -190,9 +200,9 @@ PRIVATE void hd_open(int device)
  * 
  * @param device The device to be opened.
  *****************************************************************************/
-PRIVATE void hd_close(int device)
+PRIVATE void hd_close(MESSAGE * p)
 {
-	int drive = DRV_OF_DEV(device);
+	int drive = DRV_OF_DEV(p->DEVICE);
 	assert(drive == 0);	/* only one drive */
 
 	hd_info[drive].open_cnt--;
@@ -243,7 +253,7 @@ PRIVATE void hd_rdwt(MESSAGE * p)
 		if (p->type == DEV_READ) {
 			interrupt_wait();
 			char * buf;
-			if (buf = find_buffer(p->DEVICE, pos, bytes_left))		// if we have loaded this sector, just return it
+			if ((buf = find_buffer(p->DEVICE, pos, bytes_left)))		// if we have loaded this sector, just return it
 			{
 				//phys_copy(hdbuf, buf, bytes);
 				//printl("BUFFER%s\n", hdbuf);
@@ -402,7 +412,7 @@ PRIVATE void partition(int device, int style)
 /*  *																			*/
 /*  * @param hdi  Ptr to struct hd_info.										*/
 /*  *****************************************************************************/
-PRIVATE void print_hdinfo(struct hd_info * hdi) 
+/*PRIVATE void print_hdinfo(struct hd_info * hdi) 
  { 
  	int i; 
 	for (i = 0; i < NR_PART_PER_DRIVE + 1; i++) { 
@@ -425,7 +435,7 @@ PRIVATE void print_hdinfo(struct hd_info * hdi)
 		       hdi->logical[i].size, 
  		       hdi->logical[i].size); 
  	} 
-} 
+} */
 
 /*****************************************************************************
 / *                                hd_identify								 *

@@ -60,7 +60,7 @@ PUBLIC int namei(const char * path)
 	if (!current->root) panic("No root inode");
 	if (!current->pwd) panic("No pwd inode");
 	
-	if (*path == '/0') return 0;
+	if (*path == '\0') return 0;
 	if (*path == '/')
 		pinode = current->root;
 	else

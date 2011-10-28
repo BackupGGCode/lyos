@@ -39,8 +39,8 @@ PUBLIC int uname(struct utsname * name)
 {
 	MESSAGE msg;
 	struct utsname * buf;
-	msg.type	= UNAME;
-	msg.BUF		= buf;
+	msg.type = UNAME;
+	msg.BUF	= buf;
 
 	send_recv(BOTH, TASK_SYS, &msg);
 	assert(msg.type == SYSCALL_RET);

@@ -130,7 +130,7 @@ PUBLIC void out_char(CONSOLE* con, char ch)
 		con->cursor = con->orig + SCR_WIDTH * cursor_y;
 		break;
 	case '\t':		/* tab */
-		con->cursor = con->orig + SCR_WIDTH * cursor_y + (cursor_x + TAB_SIZE) & ~TAB_MASK;
+		con->cursor = con->orig + SCR_WIDTH * cursor_y + ((cursor_x + TAB_SIZE) & ~TAB_MASK);
 		break;
 	case 033:		/* ESC - start of an escape sequence */
 		con->c_esc_state = 1;
@@ -287,7 +287,7 @@ PRIVATE void do_escape(CONSOLE * con, char c)
 {
 	int value, m, n;
 	unsigned src, dst, count;
-	int *paramp;
+	//int *paramp;
 	
 	int cursor_x = (con->cursor - con->orig) % SCR_WIDTH;
 	int cursor_y = (con->cursor - con->orig) / SCR_WIDTH;

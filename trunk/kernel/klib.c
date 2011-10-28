@@ -190,6 +190,7 @@ PUBLIC int printk(const char *fmt, ...)
 	va_list arg = (va_list)((char*)(&fmt) + 4);
 	i = vsprintf(buf, fmt, arg);
 	disp_str(buf);
+	return i;
 }
 
 /*======================================================================*

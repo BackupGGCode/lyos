@@ -85,10 +85,10 @@ PRIVATE void end_request()
 PRIVATE void rd_rdwt(MESSAGE * p)
 {
 	u64 pos = p->POSITION;
-	char * addr = rd_base + pos;
+	char * addr = (char *)(rd_base + pos);
 	int count = p->CNT;
 	
-	if ((addr + count) > (rd_base + rd_length)){
+	if ((char *)(addr + count) > (char *)(rd_base + rd_length)){
 		end_request(MAJOR_DEV);
 	//	do_rd_request();
 	}
@@ -104,12 +104,11 @@ PRIVATE void rd_rdwt(MESSAGE * p)
 
 PUBLIC void init_rd()
 {
-	int i;
 	char * c;
 
 	blk_dev_table[MAJOR_DEV].rq_handle = DEVICE_REQUEST;
 
-	c = rd_base;
+	c = (char *)rd_base;
 
 	printl("RAMDISK: %d bytes(%d kB), base: 0x%x\n", rd_length, rd_length / 1024, rd_base);
 }

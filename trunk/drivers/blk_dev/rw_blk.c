@@ -15,7 +15,7 @@
 #include "buffer.h"
 
 extern	struct request	requests[NR_REQUEST];
-extern	struct blk_dev	blk_dev_table[NR_BLK_DEV] = {
+struct blk_dev	blk_dev_table[NR_BLK_DEV] = {
 			{0, 0},			/* no dev */
 			{0, 0},			/* dev mem */
 			{0, 0},			/* dev fd */
@@ -34,7 +34,7 @@ extern	struct blk_dev	blk_dev_table[NR_BLK_DEV] = {
  *****************************************************************************/
 PUBLIC void	add_request(dev_t dev, MESSAGE * m)
 {
-	struct request * req;
+	struct request * req = 0;
 	struct request * tmp;
 
 	req->p = m;

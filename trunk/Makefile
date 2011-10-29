@@ -28,24 +28,14 @@ LYOSKERNEL	= kernel.bin
 LIB		= lib/Lyoscrt.a
 
 OBJS		= kernel/kernel.o kernel/start.o kernel/main.o\
-			kernel/clock.o drivers/chr_dev/keyboard.o drivers/chr_dev/tty.o \
-			drivers/chr_dev/console.o\
+			kernel/clock.o \
 			kernel/i8259.o kernel/global.o kernel/protect.o kernel/proc.o\
 			kernel/systask.o\
-			drivers/driver.o \
-			drivers/blk_dev/hd.o drivers/blk_dev/floppy.o drivers/blk_dev/rw_blk.o \
-			drivers/blk_dev/ramdisk.o	\
-			drivers/blk_dev/scsi/scsi.o \
-			drivers/net/inet.o \
-			drivers/pci/pci.o \
 			kernel/kliba.o kernel/klib.o kernel/sys.o kernel/reboot.o\
 			lib/syslog.o\
-			mm/main.o mm/forkexit.o mm/exec.o mm/page.o mm/memory.o \
-			mm/signal.o \
-			fs/main.o \
-			fs/Lyos/main.o fs/Lyos/open.o fs/Lyos/misc.o fs/Lyos/read_write.o\
-			fs/Lyos/link.o fs/Lyos/file.o \
-			fs/Lyos/disklog.o fs/Lyos/buffer.o fs/Lyos/namei.o
+			mm/mm.o \
+			fs/fs.o \
+			drivers/drivers.o
 LOBJS		=  lib/syscall.o\
 			lib/printf.o lib/vsprintf.o\
 			lib/string.o lib/misc.o\
@@ -130,18 +120,6 @@ kernel/main.o: kernel/main.c
 kernel/clock.o: kernel/clock.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-drivers/driver.o: drivers/driver.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-drivers/chr_dev/keyboard.o: drivers/chr_dev/keyboard.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-drivers/chr_dev/tty.o: drivers/chr_dev/tty.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-drivers/chr_dev/console.o: drivers/chr_dev/console.c
-	$(CC) $(CFLAGS) -o $@ $<
-
 kernel/i8259.o: kernel/i8259.c
 	$(CC) $(CFLAGS) -o $@ $<
 
@@ -161,27 +139,6 @@ lib/vsprintf.o: lib/vsprintf.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 kernel/systask.o: kernel/systask.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-drivers/blk_dev/hd.o: drivers/blk_dev/hd.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-drivers/blk_dev/floppy.o: drivers/blk_dev/floppy.c
-	$(CC) $(CFLAGS) -o $@ $<
-	
-drivers/blk_dev/rw_blk.o: drivers/blk_dev/rw_blk.c
-	$(CC) $(CFLAGS) -o $@ $<
-	
-drivers/blk_dev/ramdisk.o: drivers/blk_dev/ramdisk.c
-	$(CC) $(CFLAGS) -o $@ $<
-	
-drivers/blk_dev/scsi/scsi.o: drivers/blk_dev/scsi/scsi.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-drivers/net/inet.o:drivers/net/inet.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-drivers/pci/pci.o:drivers/pci/pci.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 kernel/klib.o: kernel/klib.c
@@ -220,7 +177,6 @@ lib/getpid.o: lib/getpid.c
 lib/getuid.o: lib/getuid.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-
 lib/syslog.o: lib/syslog.c
 	$(CC) $(CFLAGS) -o $@ $<
 
@@ -248,47 +204,11 @@ lib/kill.o: lib/kill.c
 lib/uname.o: lib/uname.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-mm/main.o: mm/main.c
-	$(CC) $(CFLAGS) -o $@ $<
+mm/mm.o:
+	(cd mm; make)
 
-mm/forkexit.o: mm/forkexit.c
-	$(CC) $(CFLAGS) -o $@ $<
+fs/fs.o:
+	(cd fs; make)
 
-mm/exec.o: mm/exec.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-mm/page.o: mm/page.asm
-	$(ASM) $(ASMKFLAGS) -o $@ $<
-
-mm/memory.: mm/memory.c
-	$(CC) $(CFLAGS) -o $@ $<
-	
-mm/signal.o: mm/signal.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-fs/main.o: fs/main.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-fs/Lyos/main.o: fs/Lyos/main.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-fs/Lyos/open.o: fs/Lyos/open.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-fs/Lyos/read_write.o: fs/Lyos/read_write.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-fs/Lyos/link.o: fs/Lyos/link.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-fs/Lyos/file.o: fs/Lyos/file.c
-	$(CC) $(CFLAGS) -o $@ $<
-	
-fs/Lyos/disklog.o: fs/Lyos/disklog.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-fs/Lyos/buffer.o: fs/Lyos/buffer.c
-	$(CC) $(CFLAGS) -o $@ $<
-
-fs/Lyos/namei.o: fs/Lyos/namei.c
-	$(CC) $(CFLAGS) -o $@ $<
+drivers/drivers.o:
+	(cd drivers; make)

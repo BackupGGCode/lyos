@@ -1,14 +1,22 @@
+#
+# Makefile for the Lyos memory manager.
+
 ASM		= nasm
 CC		= gcc
+LD		= ld
 ASMKFLAGS	= -I ../include/ -I ../include/sys/ -f elf
-CFLAGS		= -I ../include/ -I ../include/sys/ -c -fno-builtin -Wall
+CFLAGS		= -I ../include/ -I ../include/sys/ -c -fno-builtin -fno-stack-protector -fpack-struct -Wall
 
-MMOBJS =	main.o forkexit.o exec.o page.o memory.o signal.o
+MMOBJS 		= main.o forkexit.o exec.o page.o memory.o signal.o
+MM		= mm.o
 
-everything : reclean $(MMOBJS)
+everything : reclean $(MM)
 
 reclean :
 	rm -f $(MMOBJS)
+
+$(MM): $(MMOBJS)
+	$(LD) -r -o $(MM) $(MMOBJS)
 
 main.o: main.c
 	$(CC) $(CFLAGS) -o $@ $<

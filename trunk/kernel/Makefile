@@ -8,11 +8,11 @@ LD		= ld
 ASMKFLAGS	= -I ../include/ -I ../include/sys/ -f elf
 CFLAGS		= -I ../include/ -I ../include/sys/ -c -fno-builtin -fno-stack-protector -fpack-struct -Wall
 
-KERNELOBJS	= kernel.o start.o main.o\
+KERNELOBJS	= ../arch/$(ARCH)/kernel/$(ARCH)_krnl.o start.o main.o\
 			clock.o \
 			i8259.o global.o protect.o proc.o\
 			systask.o\
-			kliba.o klib.o sys.o reboot.o
+			klib.o sys.o
 
 KRNL		= krnl.o
 
@@ -24,11 +24,8 @@ reclean :
 $(KRNL): $(KERNELOBJS)
 	$(LD) -r -o $(KRNL) $(KERNELOBJS)
 
-kernel.o : kernel.asm
-	$(ASM) $(ASMKFLAGS) -o $@ $<
-
-reboot.o : reboot.asm
-	$(ASM) $(ASMKFLAGS) -o $@ $<
+../arch/$(ARCH)/kernel/$(ARCH)_krnl.o:
+	(cd ../arch/$(ARCH)/kernel; make)
 
 start.o: start.c
 	$(CC) $(CFLAGS) -o $@ $<
@@ -59,7 +56,3 @@ klib.o: klib.c
 
 sys.o: sys.c
 	$(CC) $(CFLAGS) -o $@ $<
-
-kliba.o : kliba.asm
-	$(ASM) $(ASMKFLAGS) -o $@ $<
-

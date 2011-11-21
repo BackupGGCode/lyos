@@ -11,6 +11,8 @@ ifeq ($(ARCH),i386)
 	ARCH = x86
 endif
 
+export ARCH
+
 # Entry point of Lyos
 # It must have the same value with 'KernelEntryPointPhyAddr' in load.inc!
 ENTRYPOINT	= 0x1000
@@ -32,7 +34,8 @@ DASMFLAGS	= -D
 ARFLAGS		= rcs
 
 # This Program
-LYOSBOOTDIR	= arch/$(ARCH)/boot
+LYOSARCHDIR	= arch/$(ARCH)
+LYOSBOOTDIR	= $(LYOSARCHDIR)/boot
 LYOSBOOT	= $(LYOSBOOTDIR)/boot.bin $(LYOSBOOTDIR)/hdboot.bin $(LYOSBOOTDIR)/loader.bin \
 			$(LYOSBOOTDIR)/hdloader.bin
 LYOSKERNEL	= kernel.bin

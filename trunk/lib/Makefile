@@ -10,9 +10,9 @@ ASMKFLAGS	= -I ../include/ -I ../include/sys/ -f elf
 CFLAGS		= -I ../include/ -I ../include/sys/ -c -fno-builtin -fno-stack-protector -fpack-struct -Wall
 ARFLAGS		= rcs
 
-LOBJS		= syscall.o\
+LOBJS		= ../arch/$(ARCH)/lib/$(ARCH)_lib.o \
 			printf.o vsprintf.o\
-			string.o misc.o\
+			misc.o\
 			open.o read.o write.o close.o unlink.o\
 			lseek.o\
 			getpid.o getuid.o stat.o\
@@ -29,9 +29,9 @@ reclean :
 $(LIB): $(LOBJS)
 	$(AR) $(ARFLAGS) $@ $^
 
-syscall.o : syscall.asm
-	$(ASM) $(ASMKFLAGS) -o $@ $<
-
+../arch/$(ARCH)/lib/$(ARCH)_lib.o:
+	(cd ../arch/$(ARCH)/lib; make)
+ 
 printf.o: printf.c
 	$(CC) $(CFLAGS) -o $@ $<
 
@@ -40,9 +40,6 @@ vsprintf.o: vsprintf.c
 
 misc.o: misc.c
 	$(CC) $(CFLAGS) -o $@ $<
-
-string.o : string.asm
-	$(ASM) $(ASMKFLAGS) -o $@ $<
 
 open.o: open.c
 	$(CC) $(CFLAGS) -o $@ $<

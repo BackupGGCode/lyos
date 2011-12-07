@@ -60,26 +60,26 @@ PUBLIC void task_fs()
 
 		switch (msgtype) {
 		case OPEN:
-			fs_msg.FD = do_open();
+			fs_msg.FD = do_open(&fs_msg);
 			break;
 		case CLOSE:
-			fs_msg.RETVAL = do_close();
+			fs_msg.RETVAL = do_close(&fs_msg);
 			break;
 		case READ:
 		case WRITE:
-			fs_msg.CNT = do_rdwt();
+			fs_msg.CNT = do_rdwt(&fs_msg);
 			break;
 		case UNLINK:
-			fs_msg.RETVAL = do_unlink();
+			fs_msg.RETVAL = do_unlink(&fs_msg);
 			break;
 		case MOUNT:
-			fs_msg.RETVAL = do_mount();
+			fs_msg.RETVAL = do_mount(&fs_msg);
 			break;
 		case UMOUNT:
-			fs_msg.RETVAL = do_umount();
+			fs_msg.RETVAL = do_umount(&fs_msg);
 			break;
 		case MKDIR:
-			fs_msg.RETVAL = do_mkdir();
+			fs_msg.RETVAL = do_mkdir(&fs_msg);
 			break;
 		case RESUME_PROC:
 			src = fs_msg.PROC_NR;
@@ -91,16 +91,16 @@ PUBLIC void task_fs()
 			fs_msg.RETVAL = fs_exit();
 			break;
 		case LSEEK:
-			fs_msg.OFFSET = do_lseek();
+			fs_msg.OFFSET = do_lseek(&fs_msg);
 			break;
 		case STAT:
-			fs_msg.RETVAL = do_stat();
+			fs_msg.RETVAL = do_stat(&fs_msg);
 			break;
 		case CHROOT:
-			fs_msg.RETVAL = do_chroot();
+			fs_msg.RETVAL = do_chroot(&fs_msg);
 			break;
 		case CHDIR:
-			fs_msg.RETVAL = do_chdir();
+			fs_msg.RETVAL = do_chdir(&fs_msg);
 			break; 
 		default:
 			dump_msg("FS::unknown message:", &fs_msg);

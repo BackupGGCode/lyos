@@ -29,8 +29,7 @@
 #include "hd.h"
 
 PRIVATE void mkfs();
-PRIVATE int fs_fork();
-PRIVATE int fs_exit();
+PRIVATE void register_fs();
 
 #define DEBUG
 #ifdef DEBUG
@@ -46,11 +45,31 @@ PRIVATE int fs_exit();
  * <Ring 1> The main loop of TASK FS.
  * 
  *****************************************************************************/
-PUBLIC void task_fs()
+PUBLIC void task_lyos_fs()
 {
 
 	init_fs();
 	init_buffer();
+
+	struct file_system * fs;
+	fs->name = "Lyos FS";
+	fs->open = do_open;
+	fs->close = do_close;
+	fs->lseek = do_lseek;
+	fs->chdir = do_chdir;
+	fs->chroot = do_chroot;
+	fs->mount = do_mount;
+	fs->umount = do_umount;
+	fs->mkdir = do_mkdir;
+	fs->rdwt = do_rdwt;
+	fs->unlink = do_unlink;
+	fs->stat = do_stat;
+	fs->fork = do_fork;
+	fs->exit = do_exit;
+	MESSAGE reg;
+	reg.type = FS_REGISTER;
+	reg.BUF = fs;
+	send_recv(BOTH, 10, &reg);
 
 	while (1) {
 		send_recv(RECEIVE, ANY, &fs_msg);
@@ -85,10 +104,10 @@ PUBLIC void task_fs()
 			src = fs_msg.PROC_NR;
 			break;
 		case FORK:
-			fs_msg.RETVAL = fs_fork();
+			fs_msg.RETVAL = fs_fork(&fs_msg);
 			break;
 		case EXIT:
-			fs_msg.RETVAL = fs_exit();
+			fs_msg.RETVAL = fs_exit(&fs_msg);
 			break;
 		case LSEEK:
 			fs_msg.OFFSET = do_lseek(&fs_msg);
@@ -428,6 +447,10 @@ PRIVATE void mkfs()
 	printl("done.");
 }
 
+PRIVATE void register_fs(){
+
+}
+
 /*****************************************************************************
  *                                rw_sector
  *****************************************************************************/
@@ -627,10 +650,10 @@ PUBLIC void sync_inode(struct inode * p)
  * 
  * @return Zero if success, otherwise a negative integer.
  *****************************************************************************/
-PRIVATE int fs_fork()
+PUBLIC int fs_fork(MESSAGE * m)
 {
 	int i;
-	struct proc* child = &proc_table[fs_msg.PID];
+	struct proc* child = &proc_table[m->PID];
 	for (i = 0; i < NR_FILES; i++) {
 		if (child->filp[i]) {
 			child->filp[i]->fd_cnt++;
@@ -650,10 +673,10 @@ PRIVATE int fs_fork()
  * 
  * @return Zero if success.
  *****************************************************************************/
-PRIVATE int fs_exit()
+PUBLIC int fs_exit(MESSAGE * m)
 {
 	int i;
-	struct proc* p = &proc_table[fs_msg.PID];
+	struct proc* p = &proc_table[m->PID];
 	for (i = 0; i < NR_FILES; i++) {
 		if (p->filp[i]) {
 			/* release the inode */

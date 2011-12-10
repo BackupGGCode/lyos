@@ -127,7 +127,7 @@ PUBLIC void			sync_inode	(struct inode * p);
 PUBLIC void 			read_super_block(int dev);
 PUBLIC struct super_block *	get_super_block	(int dev);
 
-//PUBLIC void			task_lyos_fs	();
+PUBLIC void			task_lyos_fs	();
 
 /* fs/Lyos/buffer.c */
 PUBLIC void 		bread		(struct buffer_head * bh);
